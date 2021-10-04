@@ -9,22 +9,22 @@ const homeList = (req, res) => {
     sidebar: "Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you're looking for.",
     locations: [{
       name: 'Starcups',
-      address: '125 High Street, Reading, RG6 1PS',
+      address: '경기도 안성시 중앙로 308',
       rating: 3,
       facilities: ['Hot drinks', 'Food', 'Premium wifi'],
-      distance: '100m'
+      distance: '3.1km'
     }, {
       name: 'Cafe Hero',
-      address: '125 High Street, Reading, RG6 1PS',
+      address: '경기도 안성시 중앙로 274',
       rating: 4,
       facilities: ['Hot drinks', 'Food', 'Premium wifi'],
-      distance: '200m'
+      distance: '3.2km'
     }, {
       name: 'Burger Queen',
-      address: '125 High Street, Reading, RG6 1PS',
+      address: '경기도 안성시 중앙로 389번길 6',
       rating: 2,
       facilities: ['Food', 'Premium wifi'],
-      distance: '250m'
+      distance: '9.8km'
     }]
   });
 };
@@ -40,7 +40,7 @@ const locationInfo = (req, res) => {
     },
     location: {
       name: 'Starcups',
-      address: '125 High Street, Reading, RG6 1PS',
+      address: '경기도 안성시 중앙로 308',
       rating: 3,
       facilities: ['Hot drinks', 'Food', 'Premium wifi'],
       coords: {
