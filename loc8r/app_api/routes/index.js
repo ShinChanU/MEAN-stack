@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const ctrlLocations = require('../controllers/locations');
+// locationReadOne,locationsCreate와 같은 메서드를 가지고 옴
 const ctrlReviews = require('../controllers/reviews');
+// reviewCreate와 같은 메서드를 가지고옴
 
 // locations
 router
