@@ -31,7 +31,7 @@ const openingTimesSchema = new mongoose.Schema({
 const locationSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true, // 무결성 검사
+    required: true // 무결성 검사
   },
   address: String,
   rating: {
@@ -42,11 +42,15 @@ const locationSchema = new mongoose.Schema({
   },
   facilities: [String],
   coords: { // GeoJSON 데이터( [경도, 위도] )
-    type: [Number],
-    index: '2dsphere'
+    type: { type: String },
+    coordinates: [Number]
   },
   openingTimes: [openingTimesSchema],
-  reviews: [reviewSchema]
+  reviews: [reviewSchema],
+  my: {
+    type: String,
+  },
+  // 과제 테스트
 });
 
 locationSchema.index({
