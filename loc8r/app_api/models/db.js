@@ -20,19 +20,20 @@ const gracefulShutdown = (msg, callback) => {
 };
 
 // For nodemon restarts
+// .once 한번만 수신
 process.once('SIGUSR2', () => {
   gracefulShutdown('nodemon restart', () => {
     process.kill(process.pid, 'SIGUSR2');
   });
 });
 // For app termination
-process.once('SIGINT', () => {
+process.on('SIGINT', () => {
   gracefulShutdown('app termination', () => {
     process.exit(0);
   });
 });
 // For Heroku ap termination
-process.once('SIGTERM', () => {
+process.on('SIGTERM', () => {
   gracefulShutdown('Heroku app shutdown', () => {
     process.exit(0);
   });
