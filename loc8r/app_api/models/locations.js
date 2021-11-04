@@ -1,17 +1,23 @@
 const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
-  author: String,
+  author: {
+    type: String,
+    required: true
+  },
   rating: {
     type: Number,
-    required: true,
+    required: true, // 입력이 안 되어있으면 등록이 안됨(필수)
     min: 0,
     max: 5
   },
-  reviewText: String,
+  reviewText: {
+    type: String,
+    required: true
+  },
   createdOn: {
     type: Date,
-    default: Date.now
+    'default': Date.now
   }
 });
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Loc = mongoose.model('Location');
 
-const doSetAverageRating = () => {
+const doSetAverageRating = (location) => {
   if (location.reviews && location.reviews.length > 0) {
     const count = location.reviews.length;
     const total = location.reviews.reduce((acc, { rating }) => {
@@ -42,9 +42,10 @@ const doAddReview = (req, res, location) => {
     });
     location.save((err, location) => {
       if (err) {
+        console.log(err);
         res
           .status(400)
-        json(err);
+          .json(err);
       } else {
         updateAverageRating(location._id);
         const thisReview = location.reviews.slice(-1).pop();

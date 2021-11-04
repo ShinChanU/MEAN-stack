@@ -1,4 +1,5 @@
 const { response } = require('express');
+const { post } = require('request');
 const request = require('request');
 
 const apiOptions = {
@@ -83,30 +84,6 @@ const renderDetailPage = (req, res, location) => {
 };
 
 // GET 'Location info' page
-const locationInfo = (req, res) => {
-  const path = `/api/locations/${req.params.locationid}`;
-  const requestOptions = {
-    url: `${apiOptions.server}${path}`,
-    method: 'GET',
-    json: {}
-  };
-  request(
-    requestOptions,
-    (err, { statusCode }, body) => {
-      const data = body;
-      if (statusCode === 200) {
-        data.coords = {
-          lng: body.coords[0],
-          lat: body.coords[1]
-        };
-        renderDetailPage(req, res, data);
-      } else {
-        showError(req, res, statusCode);
-      }
-    }
-  );
-};
-
 const showError = (req, res, status) => {
   let title = '';
   let content = '';
@@ -123,18 +100,89 @@ const showError = (req, res, status) => {
     title,
     content
   });
+};
+
+const renderReviewForm = (req, res, { name }) => {
+  res.render('location-review-form', {
+    title: `Review ${name} Loc8r`,
+    pageHeader: { title: `Review ${name}` },
+    error: req.query.err
+  });
 }
+
+const getLocationInfo = (req, res, callback) => {
+  const path = `/api/locations/${req.params.locationid}`;
+  const requestOptions = {
+    url: `${apiOptions.server}${path}`,
+    method: 'GET',
+    json: {}
+  };
+  request(
+    requestOptions,
+    (err, { statusCode }, body) => {
+      const data = body;
+      if (statusCode === 200) {
+        data.coords = {
+          lng: body.coords[0],
+          lat: body.coords[1]
+        };
+        callback(req, res, data);
+      } else {
+        showError(req, res, statusCode);
+      }
+    }
+  );
+};
+
+const locationInfo = (req, res) => {
+  getLocationInfo(req, res,
+    (req, res, responseData) => renderDetailPage(req, res, responseData)
+  );
+};
+
 
 // GET 'Add review' page
 const addReview = (req, res) => {
-  res.render('location-review-form', {
-    title: 'Review Starcups on Loc8r',
-    pageHeader: { title: 'Review Starcups' }
-  });
+  getLocationInfo(req, res,
+    (req, res, responseData) => renderReviewForm(req, res, responseData)
+  );
+};
+
+const doAddReview = (req, res) => {
+  const locationid = req.params.locationid;
+  const path = `/api/locations/${locationid}/reviews`;
+  const postdata = {
+    author: req.body.name,
+    rating: parseInt(req.body.rating, 10),
+    reviewText: req.body.review
+  };
+  const requestOptions = { // 요청 옵션
+    url: `${apiOptions.server}${path}`,
+    method: 'POST',
+    json: postdata
+  };
+  // 애플리케이션 레벨에서 유효성 검사
+  if (!postdata.author || !postdata.rating || !postdata.reviewText) {
+    res.redirect(`/location/${locationid}/review/new?err=val`);
+  } else {
+    request( // 리퀘스트 날리기
+      requestOptions,
+      (err, { statusCode }, { name }) => { // 콜백함수, 성공시 body에 들ㅇ거ㅏㅁ
+        if (statusCode === 201) { // post 성공 코드
+          res.redirect(`/location/${locationid}`);
+        } else if (statusCode === 400 && name && name === 'ValidationError') {
+          res.redirect(`/location/${locationid}/review/new?err=val`)
+        } else {
+          showError(req, res, statusCode);
+        }
+      }
+    );
+  }
 };
 
 module.exports = {
   homeList,
   locationInfo,
-  addReview
+  addReview,
+  doAddReview
 }

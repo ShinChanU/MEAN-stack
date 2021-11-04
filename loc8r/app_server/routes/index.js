@@ -5,9 +5,11 @@ const ctrlOthers = require('../controllers/others');
 
 // Locations pages
 router.get('/', ctrlLocation.homeList);
-
 router.get('/location/:locationid', ctrlLocation.locationInfo);
-router.get('/location/review/new', ctrlLocation.addReview);
+router
+  .route('/location/:locationid/review/new')
+  .get(ctrlLocation.addReview)
+  .post(ctrlLocation.doAddReview);
 
 // Other pages 
 router.get('/about', ctrlOthers.about); // 홈페이지 요청
