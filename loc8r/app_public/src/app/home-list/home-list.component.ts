@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Loc8rDataService } from '../loc8r-data.service';
 
 export class Location {
   _id: string;
@@ -16,30 +17,17 @@ export class Location {
 })
 
 export class HomeListComponent implements OnInit {
-  constructor() {
+  constructor(private loc8rDataService: Loc8rDataService) { }
+  public locations: Location[];
+
+  private getLocations(): void { // 호출 x, 정의만 한 것
+    this.loc8rDataService
+      .getLocations().then(foundLocations => this.locations = foundLocations);
   }
 
-  name = 'Valhalla Coffee';
-
-  locations: Location[] = [{
-    _id: '6162cbd5c8ca5eff44bee640',
-    name: 'Valhalla Coffee',
-    distance: 1020.0,
-    address: '경기 안성시 도기1길 98',
-    rating: 3,
-    facilities: ['Hot drinks', 'Food', 'Premium wifi']
-  },
-  {
-    _id: '616d3e601a5c8549afafac4a',
-    name: 'Cafe Le Dugong',
-    distance: 1302.0,
-    address: '경기 안성시 월덕천길 15-1',
-    rating: 4,
-    facilities: ['Hot drinks', 'Premium wifi']
+  ngOnInit() { // 서비스가 이용 가능하게 된 후에만 호출, 해결책
+    this.getLocations();
   }
-  ];
-
-  ngOnInit(): void { }
 }
 
 
