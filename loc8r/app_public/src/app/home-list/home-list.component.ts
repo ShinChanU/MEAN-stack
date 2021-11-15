@@ -29,5 +29,3 @@ export class HomeListComponent implements OnInit {
     this.getLocations();
   }
 }
-
-
