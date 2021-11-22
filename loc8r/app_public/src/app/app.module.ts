@@ -12,6 +12,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { HtmlLineBreaksPipe } from './html-line-breaks.pipe';
 import { RatingStarsComponent } from './rating-stars/rating-stars.component';
 import { LocationDetailsComponent } from './location-details/location-details.component';
+import { DetailsPageComponent } from './details-page/details-page.component';
+import { MostRecentFirstPipe } from './most-recent-first.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { LocationDetailsComponent } from './location-details/location-details.co
     SidebarComponent,
     HtmlLineBreaksPipe,
     RatingStarsComponent,
-    LocationDetailsComponent
+    LocationDetailsComponent,
+    DetailsPageComponent,
+    MostRecentFirstPipe
   ],
   imports: [
     BrowserModule,
@@ -36,6 +40,9 @@ import { LocationDetailsComponent } from './location-details/location-details.co
       }, {
         path: 'about',
         component: AboutComponent
+      }, {
+        path: 'location/:locationId',
+        component: DetailsPageComponent
       }
     ])
   ],
