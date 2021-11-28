@@ -19,7 +19,7 @@ const homeList = (req, res) => {
     qs: {
       lng: 127.26411,
       lat: 37.00670,
-      maxDistance: 200000
+      maxDistance: 20000
     }
   };
 

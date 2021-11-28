@@ -1,9 +1,10 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Loc8rDataService } from '../loc8r-data.service';
-import { Location } from '../home-list/home-list.component';
+// import { Location } from '../home-list/home-list.component';
+import { Location } from '../location';
 import { switchMap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-details-page',
@@ -17,7 +18,7 @@ export class DetailsPageComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  public newLocation!: Location;
+  public newLocation: Location;
 
   ngOnInit(): void {
     this.route.paramMap

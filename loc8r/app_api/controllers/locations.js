@@ -10,8 +10,7 @@ const locationsReadOne = (req, res) => {
         return res
           .status(404)
           .json({
-            "message": "location not found",
-            "학번/이름": "2016410026/신찬우"
+            "message": "location not found"
           });
       } else if (err) { // err를 반환하는 경우
         return res
@@ -35,7 +34,7 @@ const locationsListByDistance = async (req, res) => {
     distanceField: "distance.calculated",
     key: 'coords',
     spherical: true, // 둥근 표면에서 거리 계산
-    maxDistance: 20000,
+    maxDistance: 200000,
   };
   if (!lng || !lat) {
     return res
