@@ -1,16 +1,19 @@
-require('dotenv').config();
+require('dotenv').config(); //
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
+const path = require('path'); //
+// const favicon = require('serve-favicon');
 const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser'); //
+const passport = require('passport'); // 
 require('./app_api/models/db');
+require('./app_api/config/passport');
 
 // var indexRouter = require('./routes/index');
 // const indexRouter = require('./app_server/routes/index');
 const apiRouter = require('./app_api/routes/index');
 const usersRouter = require('./app_server/routes/users');
-
 const app = express();
 
 // view engine setup
@@ -24,10 +27,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'app_public', 'build'))); // angular가 필요하면 app_public을 향함
+app.use(passport.initialize());
 
 app.use('/api', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   next();
 });
 
@@ -43,12 +48,21 @@ app.get('*', function (req, res, next) {
 
 app.use('/users', usersRouter);
 
+// error handler
+// Catch unauthorized errors
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    res
+      .status(401)
+      .json({ "message": err.name + ": " + err.message });
+  }
+});
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -58,6 +72,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-// test3
 
 module.exports = app;

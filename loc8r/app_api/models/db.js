@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const dbURI = 'mongodb+srv://my_atlas_user:cksdn963@cluster0.gswaa.mongodb.net/Loc8r';
 // const dbURI = 'mongodb://localhost/Loc8r';
+// const dbURI = 'mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false';
 
 mongoose.connect(dbURI, { useNewUrlParser: true });
 
