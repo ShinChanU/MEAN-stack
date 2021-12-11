@@ -16,8 +16,8 @@ export class Loc8rDataService {
     @Inject(BROWSER_STORAGE) private storage: Storage
   ) { }
 
-  private apiBaseUrl = 'http://localhost:3000/api';
-  // private apiBaseUrl = 'https://loc8r1004.herokuapp.com/api';
+  // private apiBaseUrl = 'http://localhost:3000/api';
+  private apiBaseUrl = 'https://loc8r1004.herokuapp.com/api';
 
   public getLocations(lat: number, lng: number): Promise<Location[]> {
     const maxDistance: number = 200000;
