@@ -19,7 +19,7 @@ const homeList = (req, res) => {
     qs: {
       lng: 127.26411,
       lat: 37.00670,
-      maxDistance: 20000
+      maxDistance: 200000
     }
   };
 
@@ -38,7 +38,7 @@ const homeList = (req, res) => {
 };
 
 const formatDistance = (distance) => {
-  let thisDistance = '0';
+  let thisDistance = 0;
   let unit = 'm';
   if (distance > 1000) {
     thisDistance = parseFloat(distance / 1000).toFixed(1);

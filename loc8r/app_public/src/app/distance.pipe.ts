@@ -3,6 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'distance'
 })
+
 export class DistancePipe implements PipeTransform {
   transform(distance: number): string {
     const isNumeric = function (n) {
@@ -10,10 +11,10 @@ export class DistancePipe implements PipeTransform {
     };
 
     if (distance && isNumeric(distance)) {
-      let thisDistance = '0';
       let unit = 'm';
+      let thisDistance = '0';
       if (distance > 1000) {
-        thisDistance = (distance / 10000).toFixed(1);
+        thisDistance = (distance / 1000).toFixed(1);
         unit = 'km';
       } else {
         thisDistance = Math.floor(distance).toString();
